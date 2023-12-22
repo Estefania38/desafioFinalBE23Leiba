@@ -1,0 +1,53 @@
+<p><strong>{{error}}</strong></p>
+<div class="products">
+{{#if payload}}
+     <h1>Listas de productos</h1>
+    <article id="list-products">
+     <article class="container">
+     <ul>
+     {{#each payload}}
+     <div class="card">
+        <div class="imgBx">
+          <img src="{{this.thumbnail}}" width="90px" />
+        </div>
+        <div class="contentBx">
+          <h2>{{this.title}}</h2>
+          <div class="size">
+            <h3>{{this.description}}</h3>
+            <br>
+            <h3>Precio: $ {{this.price}}</h3>
+            <br>            
+            <h4>Categoria: {{this.category}}</h4>            
+            <a>Codigo: {{this.code}}</a>
+            <a>Stock: {{this.stock}}</a>
+          </div>
+        </div>
+      </div>  
+           {{!-- <form action="http://localhost:8080/api/cart/{{../user.cart}}/products/{{this._id}}" method="post">
+                        <button type="submit" onclick='delete({{this._id}})' class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">Añadir al carrito</button> --}}
+                  
+      <button  type="submit" class="botons" onclick='addProductToCart({{this._id}})'>Agregar al carrito</button>   
+        </form>  
+     {{/each}}
+     </ul>  
+    </article>
+    
+  </article>  
+     {{#if hasPrevPage}}
+     <a href={{prevLink}}>Anterior</a>
+     {{/if}}
+     {{page}}
+     {{#if hasNextPage}}
+     <a href={{nextLink}}>Siguiente</a>
+     {{/if}}
+{{else}}
+     <h2>No hay productos</h2>
+{{/if}}
+</div>
+<script>
+    const addToCart = (productId)=>{
+        console.log(`producto recibido ${productId}`);
+    } 
+
+</script>
+

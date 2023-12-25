@@ -5,7 +5,8 @@ import {engine} from "express-handlebars";
 import { __dirname } from "./utils.js";
 import { swaggerSpecs } from "./config/swagger.config.js";
 import swaggerUI from "swagger-ui-express";
-import {addLogger } from "./helpers/logger.js"
+import {addLogger } from "./helpers/logger.js";
+import {errorHandler} from "./middlewares/errorHandlers.js";
 
 // Importaciones de Passport
 import passport from "passport";
@@ -25,6 +26,9 @@ import { sessionsRouter } from "./routes/sessions.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 import { contactsRouter} from "./routes/contacts.routes.js";
 import { businessRouter } from "./routes/business.routes.js";
+import {messagesRouter} from "./routes/messages.routes.js";
+import {testRouter} from "./routes/test.routes.js";
+
 
 // Otras importaciones
 import {config} from "./config/config.js";
@@ -99,6 +103,9 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/cart", cartsRouter);
 app.use("/api/contacts", contactsRouter);
 app.use("/api/business", businessRouter);
+app.use('/messages', messagesRouter);
+app.use('/', testRouter);
+app.use(errorHandler)
 // endpoint para acceder a la documentacion de la api
 app.use ("/api/docs", swaggerUI.serve,swaggerUI.setup(swaggerSpecs));
 
@@ -113,30 +120,6 @@ app.get('/loggerTest', (req, res) => {
 
     res.send('Registros realizados.');
 });
-
-// let messages=[];
-// //socket server
-// io.on("connection",(socket)=>{
-//     console.log("nuevo cliente conectado");
-
-//     socket.on("authenticated",(msg)=>{
-//         socket.emit("messageHistory", messages);
-//         socket.broadcast.emit("newUser",msg);
-//     });
-
-//     //recibir el mensaje del cliente
-//     socket.on("message",(data)=>{
-//         console.log("data", data);
-//         messages.push(data);
-
-//         //cada vez que recibamos este mensaje, enviamos todos los mensajes actualizados a todos los clientes conectados
-//         io.emit("messageHistory", messages);
-//     })
-// });
-
-
-
-
 
 
 export {app}

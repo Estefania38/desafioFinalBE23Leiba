@@ -1,15 +1,17 @@
 import { UsersService } from "../services/users.service.js";
+// import UserDTO from "../DTOs/User.dto.js";
+
 
 export class UsersControllers {
 
     static getUsers = async (req, res) => {
         try {
             const users = await UsersService.getUsers();
-            res.json({ status: "success", data: users });
+            res.status(200).send({ status: "success", data: users });          
 
         } catch (error) {
             console.log(error.message);
-            res.json({ status: "error", message: "hubo un error al obtener los usuarios" })
+            res.status(400).send({ status: "error", message: "hubo un error al obtener los usuarios" })
         }
     }
     static getById = async (req, res) => {
@@ -77,7 +79,8 @@ export class UsersControllers {
             } else if(userRole === "premium"){
                 user.role = "user";
             } else {
-                return res.json({status:"error", message:"No se puede cambiar el role de este usuario"});
+                return res.status(400).send({status:'error', message:'Los admin no se puden modificar'})
+                // return res.json({status:"error", message:"No se puede cambiar el role de este usuario"});
             };
             await UsersService.update(user._id,user);
             return res.json({status:"success", message:`El nuevo rol del usuario es ${user.role}`});

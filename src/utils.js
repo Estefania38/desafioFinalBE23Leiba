@@ -4,10 +4,13 @@ import { fileURLToPath } from 'url';
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import jwt from "jsonwebtoken";
 import { config } from "./config/config.js"
+import { fakerES as faker } from '@faker-js/faker'
 
 // aca creo la clave secreta del token
 
 const SECRET_TOKEN_KEY =config.token.password;
+export const JWT_PRIVATE_KEY = process.env.SECRET_TOKEN_KEY
+export const JWT_COOKIE_NAME = process.env.JWT_COOKIE_NAME
 
 
 export const createHash = (password)=>{
@@ -35,6 +38,20 @@ export const validateToken = (req,res,next)=>{
     })
 }
 
+export const extractCookie = req => {
+    return (req && req.cookies) ? req.cookies[JWT_COOKIE_NAME] : null
+}
+
+export const passportCall = strategy => {
+    return async (req, res, next) => {
+        passport.authenticate(strategy, function(err, user, info) {
+            if (err) return next(err)
+            if (!user) return res.status(401).render('errors/base', { error: info.messages ? info.message : info.toString()})
+            req.user = user
+            next()
+        })(req, res, next)
+    }
+}
 
 export const UserPass = strategy => {
     return async (req, res, next) => {
@@ -45,5 +62,17 @@ export const UserPass = strategy => {
             req.user = user
             next()
         })(req, res, next)
+    }
+}
+
+export const generateProduct = () => {
+    return {
+        _id: faker.database.mongodbObjectId(),
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price(),
+        stock: faker.number.int(),
+        category:faker.commerce.productMaterial(),
+        image: faker.image.urlPicsumPhotos()
     }
 }

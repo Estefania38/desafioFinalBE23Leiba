@@ -50,7 +50,7 @@ export const initializePassport = () => {
                     return done(null, false)
                 }
                 //si el usuario existe, validar la contraseña
-                if ((user, password)) {// agregado para prueba
+                if (isValidPassword(user, password)) {// agregado para prueba
                     const accessToken = generateToken({ email: user.email, role: user.role });
                     user.token = accessToken; // aca finaliza
                     return done(null, user);

@@ -154,4 +154,29 @@ body {
     border-bottom: 2px solid black;
     padding: 0px 0px 5px 5px;
   }
+  /* ----------
+    CARROUSEL
+    ---------- */
+.carrousel {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  text-align: center;
+}
+
+.carrousel ul {
+  display: flex;
+  padding: 0;
+  width: 400%;
+  animation: slide 10s infinite alternate ease-in-out;
+}
+
+.carrousel li {
+  width: 100%;
+  list-style: none;
+}
+
+.carrousel img {
+  max-width: 100%;
+}
   

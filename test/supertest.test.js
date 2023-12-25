@@ -43,7 +43,7 @@ describe("Testing de  tienda_online", () => {
             const person = {
                 first_name: faker.person.firstName(),
                 last_name: faker.person.lastName(),
-                email: "arturoguerraba@gmail.com",
+                email: "estefanialeiba@gmail.com",
                 age: faker.string.numeric({ length: 2 }),
                 password: faker.string.alphanumeric({ length: 10 })
             }

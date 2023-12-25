@@ -1,6 +1,8 @@
 import { createHash, validateToken } from "../utils.js";
 import {generateEmailToken, recoveryEmail} from "../helpers/gmail.js"
 import { UsersService } from "../services/users.service.js";
+import UserDTO from "../DTOs/User.dto.js";
+
 
 export class SessionsControllers {
 
@@ -32,18 +34,6 @@ export class SessionsControllers {
         } catch (error) {
             res.render("changePassword", { error: error.message });
         }
-    }
-    static logout = (req, res) => {
-        req.logOut(error => {
-            if (error) {
-                return res.render("profile", { user: req.user, error: "No se pudo cerrar la sesion" });
-            } else {
-                req.session.destroy(error => {
-                    if (error) return res.render("profile", { user: req.session.userInfo, error: "No se pudo cerrar la sesion" });
-                    res.redirect("/");
-                })
-            }
-        })
     }
     static forgotPassword = async (req, res)=>{
         try {
@@ -80,5 +70,30 @@ export class SessionsControllers {
             res.send("No se pudo restablecer la contraseña, volver a intentarlo <a href='/forgot-password'>Restablecer contraseña</a>");
         }
     };
+
+    //JWT AUTHENTICATION 
+
+    // CONTROLLER (GET) PARA AUTHENTICATION CON JWT
+    static JWTAuth = (req, res)=>{
+        return res.status(200).send({
+            user: new UserDTO(req.user.user)
+        })
+    }
+    
+    //LOGOUT
+
+    static logout = (req, res) => {
+        req.logOut(error => {
+            if (error) {
+                return res.render("profile", { user: req.user, error: "No se pudo cerrar la sesion" });
+            } else {
+                req.session.destroy(error => {
+                    if (error) return res.render("profile", { user: req.session.userInfo, error: "No se pudo cerrar la sesion" });
+                    res.redirect("/");
+                })
+            }
+        })
+    }
+    
     
 }

@@ -13,6 +13,7 @@ export class ProductsController{
             return res.json({ status: "success", data: products });
           }
         } catch (error) {
+          console.log(error)
           return res.status(500).send(error.message);
         }
     }

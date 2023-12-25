@@ -55,6 +55,67 @@
 //           }
 //     }).showToast()
 //  })
+
+
+
+// segunda prueba de chat
+
+// const message = [];
+
+// io.on("connection", (socket) => {
+//   console.log(`User ${socket.id} Connection`);
+
+//   //Nombre del usuario
+//   let userName = "";
+//   // Mesaje de Coneccion
+//   socket.on("userConnection", (data) => {
+//     userName = data.user;
+//     message.push({
+//       id: socket.id,
+//       info: "connection",
+//       name: data.user,
+//       message: `${data.user} Connectado`,
+//       date: new Date().toTimeString(),
+//     });
+//     io.sockets.emit("userConnection", message);
+//   });
+//   // Mensaje de Mesaje enviado
+//   socket.on("userMessage", (data) => {
+//     message.push({
+//       id: socket.id,
+//       info: "message",
+//       name: userName,
+//       message: data.message,
+//       date: new Date().toTimeString(),
+//     });
+//     io.sockets.emit("userMessage", message);
+//   });
+//   //Mensage Usuario escribiendo
+//   socket.on("typing", (data) => {
+//     socket.broadcast.emit("typing", data);
+//   });
+// });
+
+// primer pueba de mensaje
+
+// const socket = io()
+
+// socket.on('messages', (data)=>{
+
+//     const list = document.querySelector('#messages')
+//     list.innerHTML = ''
+//     data.forEach(element => {
+//         list.innerHTML += ` <hr/>
+//         <h2>user: ${element.user}</h2>
+//         <p><strong>mensaje</strong>: ${element.message}</p>
+//         <hr/>
+//         `
+//     });
+
+// })
+
+// para prueba de mensaje
+
 const message = [];
 
 io.on("connection", (socket) => {

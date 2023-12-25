@@ -1,4 +1,8 @@
 import { productDao } from "../dao/factory.js";
+import { CartsService } from "../services/carts.service.js";
+import { userPasswordService } from "../services/userPassword.service.js";;
+import {UsersService} from "../services/users.service.js";
+
 
 export class ViewsController {
     static renderHome = (req, res) => {
@@ -10,9 +14,29 @@ export class ViewsController {
     static renderLogin = (req, res) => {
         res.render("login");
     };
-    static renderCart = (req, res) => {
-        res.render("cart");
-    };
+    // static renderCart = (req, res) => {
+    //     res.render("cart");
+    // };
+    // CONTROLLER (GET) PARA RENDERIZAR UN CARRITO Y SUS PRODUCTOS
+    static renderCart = async (req,res)=>{ 
+        //---------------LOGICA----------------------
+            let cid =req.params.cid
+            let cart = await CartsService.getCart({_id:cid})
+            if(cart == null){
+                
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'carrito no existente'
+                })
+            }
+            
+            let products = cart[0].products
+            
+
+        //---------------RESPUESTA-------------------
+            return res.render('cart',{products:products,cid:cid})
+        
+    }
     static renderDeleteProduct= (req, res) => {
         res.render("deleteProduct");
     };
@@ -33,7 +57,7 @@ export class ViewsController {
         res.render("resetPassword", {token});
     }
     static renderChat = (req, res) => {
-        res.render("chat")
+        res.render("messages")
     }
     static renderProducts = async (req, res) => {
         try {
@@ -84,4 +108,30 @@ export class ViewsController {
             res.status(500).send("Error interno del servidor");
         }
     }
+
+    // agregados para prueba
+    // CONTROLLER (GET) PARA RENDERIZAR VERIFICAR TOKEN
+    static renderVerifyToken = async (req,res)=>{
+
+        const userPassword = await userPasswordService.getUserPassword({token:req.params.token})
+
+        if(userPassword == ''){
+            return res.status(404).json({status:'error', message:'Token no valido / el token a expirado'})
+        }
+
+        const user = userPassword[0].email
+        return res.render(`sessions/reset-password`,{user})
+
+}
+
+// CONTROLLER (GET) PARA RENDERIZAR TODOS LOS PRODUCTOS EN TIEMPO REAL CON SOCKET
+static renderUsers = async (req,res)=>{
+
+    //---------------LOGICA----------------------
+        const users = await UsersService.getUsers()
+
+    //---------------RESPUESTA-------------------
+        return res.render('users',{users:users})
+
+}
 }

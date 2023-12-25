@@ -54,7 +54,7 @@ export class CartsService {
 
     AddToCart = async (cId, pId) =>{
 
-        const product = await ProductsService.getProducts({_id:pId})
+        const product = await ProductsService. getProductById({_id:pId})
         const cart = await this.dao.get({_id:cId}, this.model)
 
         if(product != '' && cart != ''){

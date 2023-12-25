@@ -3,7 +3,7 @@ import {usersModel } from "../../models/users.model.js";
 
 export class UsersMongo{
     constructor(){
-        this.model = usersModel;
+         this.model = usersModel;
     };
 
     async getUsers(){
@@ -60,6 +60,16 @@ export class UsersMongo{
         } catch (error) {
             console.log(error.message);
             throw error;
+        }
+    };
+    async delete (options, entity) {
+        if (!this.model[entity]) throw new Error('Entity not found in models')
+        try {
+            let results =  await this.model[entity].findOneAndDelete(options)
+            return results
+        } catch(err) {
+            console.log(err.message)
+            return null
         }
     };
 }

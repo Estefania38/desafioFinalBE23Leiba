@@ -25,6 +25,8 @@ colors: {
 }
 }
 
+winston.addColors(logLevels.colors)
+
 //crear el transporte : sistema de almacenamiento
 
 const devLogger = winston.createLogger({
@@ -35,8 +37,18 @@ const devLogger = winston.createLogger({
 
 const prodLogger = winston.createLogger({
     transports:[
-        new winston.transports.Console({level:"info"}),
-        new winston.transports.File({filename:"./logs/errors.log", level:"error"})
+        new winston.transports.Console({
+            level:"info",
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.simple()
+            )
+        }),
+        new winston.transports.File({
+            filename:"./logs/errors.log",
+            level:"error",
+            format: winston.format.simple()
+        })
     ]
 });
 

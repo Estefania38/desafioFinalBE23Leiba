@@ -11,7 +11,7 @@ export const generateEmailToken = (email, expireTime)=>{
 //funcion para generar enlace con token
 export const recoveryEmail = async(req,userEmail,emailToken)=>{
     try {
-        const domain = `${req.protocol}://${req.get('host')}`;
+        const domain = `${req.protocol}:/http://localhost:8080/api/users/reset-password/${req.get('host')}`;
         const link = `${domain}/reset-password?token=${emailToken}`;
         //Enviar el correo con el enlace
         await gmailTransporter.sendMail({

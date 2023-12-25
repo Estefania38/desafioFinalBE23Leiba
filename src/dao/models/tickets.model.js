@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { ticketsCollection } from "../../constants/index.js";
 
-const ticketsCollection = "tickets";
+
 
 const ticketSchema = new mongoose.Schema({
     code: String,

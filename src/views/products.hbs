@@ -1,53 +1,153 @@
-<p><strong>{{error}}</strong></p>
-<div class="products">
-{{#if payload}}
-     <h1>Listas de productos</h1>
-    <article id="list-products">
-     <article class="container">
-     <ul>
-     {{#each payload}}
-     <div class="card">
-        <div class="imgBx">
-          <img src="{{this.thumbnail}}" width="90px" />
-        </div>
-        <div class="contentBx">
-          <h2>{{this.title}}</h2>
-          <div class="size">
-            <h3>{{this.description}}</h3>
-            <br>
-            <h3>Precio: $ {{this.price}}</h3>
-            <br>            
-            <h4>Categoria: {{this.category}}</h4>            
-            <a>Codigo: {{this.code}}</a>
-            <a>Stock: {{this.stock}}</a>
-          </div>
-        </div>
-      </div>  
-           {{!-- <form action="http://localhost:8080/api/cart/{{../user.cart}}/products/{{this._id}}" method="post">
-                        <button type="submit" onclick='delete({{this._id}})' class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">Añadir al carrito</button> --}}
-                  
-      <button  type="submit" class="botons" onclick='addProductToCart({{this._id}})'>Agregar al carrito</button>   
-        </form>  
-     {{/each}}
-     </ul>  
-    </article>
-    
-  </article>  
-     {{#if hasPrevPage}}
-     <a href={{prevLink}}>Anterior</a>
-     {{/if}}
-     {{page}}
-     {{#if hasNextPage}}
-     <a href={{nextLink}}>Siguiente</a>
-     {{/if}}
-{{else}}
-     <h2>No hay productos</h2>
-{{/if}}
+{{!-- <div>
+    <h1>Bienvenido </h1> {{user.first_name}} {{user.last_name}}
+    <p>Rol: <strong>{{user.rol}}</strong></p>
+    <p>{{cart}}</p><br>
+    <a class="bg-blue-600 text-white p-2 m-4 rounded-lg" href='http://localhost:8080/createproduct'
+        class="bg-rose-200 rounded-[50px] drop-shadow-md">crear producto</a>
+    <a class="bg-blue-600 text-white p-2 m-4 rounded-lg" href='http://localhost:8080/deleteproduct'
+        class="bg-rose-200 rounded-[50px] drop-shadow-md">eliminar producto</a><br>
+    <br>
+    <section>
+        <h2>Productos:</h2>
+        <hr>
+        <section class="sm:w-11/12 mx-20 px-4  py-5 grid justify-items-center md:grid-cols-2" id="list">
+            {{#each payload}}
+            <div class="bg-white drop-shadow-xl my-3 w-[330px] h-[600px] flex flex-col rounded-[20px] ">
+                <img src="{{this.thumbnail}}" class="h-3/5 rounded-b-[50px] rounded-t-[20px] border-2" alt="">
+                <div class="h-2/5 p-5 flex flex-col gap-2 text-center justify-center">
+                    <h2 class="font-bold">{{this.title}}</h2>
+                    <p>{{this.description}}</p>
+                    <div class="flex text-center gap-1 mb-2">
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Code: {{this.code}}</p>
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Price: ${{this.price}}</p>
+                    </div>
+                    <div class="flex text-center gap-1">
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Stock: {{this.stock}}</p>
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Category: {{this.category}}</p>
+                    </div>
+                    <form action="http://localhost:8080/api/cart/{{cart}}/product/{{this._id}}" method="post">
+                        <button type="submit" onclick='delete({{this._id}})'
+                            class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">Añadir
+                            al carrito</button>
+                    </form>
+                </div>
+            </div>
+            {{/each}}
+        </section>
+        {{#if hasPrevPage}}
+        <a class="bg-blue-600 text-white p-2 m-4 rounded-lg" href={{prevLink}}
+            class="bg-rose-200 rounded-[50px] drop-shadow-md">Anterior</a>
+        {{/if}}
+        <p class="m-4">Pagina: {{page}}</p>
+        {{#if hasNextPage}}
+        <a class="bg-blue-600 text-white p-2 m-4  rounded-lg" href={{nextLink}}>Siguiente</a>
+        {{/if}}
+        {{else}}
+        <h2>No hay productos</h2>
+        {{/if}}
+    </section>
+    <br>
+    <a class="bg-blue-600 text-white p-2 m-4 rounded-lg" href='http://localhost:8080/api/cart/{{cart}}'
+        class="bg-rose-200 rounded-[50px] drop-shadow-md">Ir al carrito</a>
+    <hr>
+    <br>
+    <a class="bg-blue-600 text-white p-2 m-4 rounded-lg"
+        href="http://localhost:8080/api/sessions/logout"><button>logout</button></a>
+</div> --}}
+
+
+<div>
+    <h1>Bienvenido </h1> {{user.first_name}} {{user.last_name}}
+    <p>Rol: <strong>{{user.rol}}</strong></p>
+    <p>{{cart}}</p><br>
+    <a class="bg-blue-600 text-white p-2 m-4 rounded-lg" href='http://localhost:8080/createproduct'
+        class="bg-rose-200 rounded-[50px] drop-shadow-md">crear producto</a>
+    <a class="bg-blue-600 text-white p-2 m-4 rounded-lg" href='http://localhost:8080/deleteproduct'
+        class="bg-rose-200 rounded-[50px] drop-shadow-md">eliminar producto</a><br>
+    <br>
+    <section>
+        <p><strong>{{error}}</strong></p>
+        <div class="products">
+            <h2>Productos:</h2>
+            <hr>
+            <section class="sm:w-11/12 mx-20 px-4  py-5 grid justify-items-center md:grid-cols-2" id="list">
+
+                {{#if payload}}
+
+                     <div class="bg-white drop-shadow-xl my-3 w-[330px] h-[600px] flex flex-col rounded-[20px] ">
+                <img src="{{this.thumbnail}}" class="h-3/5 rounded-b-[50px] rounded-t-[20px] border-2" alt="">
+                <div class="h-2/5 p-5 flex flex-col gap-2 text-center justify-center">
+                    <h2 class="font-bold">{{this.title}}</h2>
+                    <p>{{this.description}}</p>
+                    <div class="flex text-center gap-1 mb-2">
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Code: {{this.code}}</p>
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Price: ${{this.price}}</p>
+                    </div>
+                    <div class="flex text-center gap-1">
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Stock: {{this.stock}}</p>
+                        <p class="w-2/4 p-1 bg-blue-200 rounded-[50px] drop-shadow-md">Category: {{this.category}}</p>
+                    </div>
+                    <form action="http://localhost:8080/api/cart/{{cart}}/product/{{this._id}}" method="post">
+                        <button type="submit" onclick='delete({{this._id}})'
+                            class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">Añadir
+                            al carrito</button>
+                    </form>
+                </div>
+            </div>
+                <h1>Listas de productos</h1>
+                <article id="list-products">
+                    <article class="container">
+                        <ul>
+                            {{#each payload}}
+                            <div class="card">
+                                <div class="imgBx">
+                                    <img src="{{this.thumbnail}}" width="90px" />
+                                </div>
+                                <div class="contentBx">
+                                    <h2>{{this.title}}</h2>
+                                    <div class="size">
+                                        <h3>{{this.description}}</h3>
+                                        <br>
+                                        <h3>Precio: $ {{this.price}}</h3>
+                                        <br>
+                                        <h4>Categoria: {{this.category}}</h4>
+                                        <a>Codigo: {{this.code}}</a>
+                                        <a>Stock: {{this.stock}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- <form action="http://localhost:8080/api/cart/{{../user.cart}}/products/{{this._id}}"
+                                method="post">
+                                <button type="submit" onclick='delete({{this._id}})'
+                                    class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">Añadir
+                                    al carrito</button> --}}
+
+                                <button type="submit" class="botons" onclick='addProductToCart({{this._id}})'>Agregar al
+                                    carrito</button>
+                            </form>
+                            {{/each}}
+                        </ul>
+                    </article>
+
+
+                </article>
+            </section>
+    </section>
+    {{#if hasPrevPage}}
+    <a href={{prevLink}}>Anterior</a>
+    {{/if}}
+    {{page}}
+    {{#if hasNextPage}}
+    <a href={{nextLink}}>Siguiente</a>
+    {{/if}}
+    {{else}}
+    <h2>No hay productos</h2>
+    {{/if}}
 </div>
 <script>
-    const addToCart = (productId)=>{
+    const addToCart = (productId) => {
         console.log(`producto recibido ${productId}`);
-    } 
+    }
 
 </script>
-
+</div>

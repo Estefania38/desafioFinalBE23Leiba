@@ -11,6 +11,6 @@ export const errorHandler = (error, req,res,next)=>{
         case EError.INVALID_PARAM:
             return res.status(400).json({status:"error", error:error.cause});
         default:
-            return res.status(500).json({status:"error", error:"error desconocido"});
+            return res.status(500).json({status:"error", error:"error desconocido puto"});
     }
 }

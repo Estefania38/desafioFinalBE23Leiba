@@ -1,4 +1,4 @@
-{{#if error}}
+{{!-- {{#if error}}
 <div class="alert alert-danger mx-5">{{error}}</div>
 {{/if}}
 
@@ -11,8 +11,8 @@
         <div class="col">
             <h2 class="text-center">Products in cart</h2>
 
-            {{#if products}}
-            {{#each products}}
+            {{#if payload}}
+            {{#each payload}}
             <div class="card store_card mx-auto mb-2">
                 <div class="row no-gutters">
                     <!-- Product Details -->
@@ -84,8 +84,10 @@
         style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;">
         <i class="fas fa-comments text-white" style="font-size: 24px;"></i>
     </a>
-</div>
-{{!-- 
+</div> --}}
+
+
+
 <div>
     <h1 class="text-5xl">Carrito {{cid}}</h1>
     <section class="flex">
@@ -111,4 +113,4 @@
         <button class="bg-pink-600 text-white p-2 m-2 rounded-lg" type="submit" class="bg-white hover:bg-black hover:text-white drop-shadow-md border-2 border-black rounded-[50px] m-2 p-2 w-2/4 self-center">COMPRAR</button>
     </form>
     <a class="bg-pink-600 text-white p-2 m-2 rounded-lg" href="http://localhost:8080/api/products">volver a productos</a>
-</div> --}}
+</div> 

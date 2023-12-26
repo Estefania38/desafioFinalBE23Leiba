@@ -1,26 +1,28 @@
 import { Router } from "express";
-import { PurchaseCart, UpdateAllCart, UpdateProductQty, addToCartByID, createCart, deleteAllProducts, deleteProductInCart, getCartByID } from "../controllers/carts.controllers.js";
-
+import { CartsController } from "../controllers/carts.controllers.js";
 import { __dirname } from "../utils.js";
 import { UserPass } from "../utils.js";
-
+import { checkAuthenticated } from "../middlewares/auth.js";
 const router = Router()
 
-router.post('/', createCart)
+router.post('/', checkAuthenticated, CartsController.createCart)
 
-router.get('/:cid', getCartByID)
 
-router.post('/:cid/product/:pid', addToCartByID),UserPass('current'),
 
-router.delete('/:cid/products/:pid', deleteProductInCart )
+router.get('/:cid', CartsController.getCartById)
 
-router.delete('/:cid', deleteAllProducts)
+router.post('/:cid/product/:pid',checkAuthenticated, CartsController.addToCartByID),
+//UserPass('current'),
 
-router.put('/:cid', UpdateAllCart)
+router.delete('/:cid/products/:pid', CartsController.deleteProductInCart )
 
-router.put('/:cid/products/:pid', UpdateProductQty)
+router.delete('/:cid', CartsController.deleteAllProducts)
 
-router.post('/:cid/purchase', PurchaseCart)
+router.put('/:cid', CartsController.UpdateAllCart)
+
+router.put('/:cid/products/:pid', CartsController.UpdateProductQty)
+
+router.post('/:cid/purchase', CartsController.PurchaseCart)
 
 
 export { router as cartsRouter };

@@ -2,71 +2,105 @@ import { TicketsService } from "../services/tickets.service.js";
 import {CartsService } from "../services/carts.service.js";
 import { ProductsService } from "../services/products.service.js";
 
-
+export class CartsController{
 // CONTROLLER (POST) PARA CREAR UN NUEVO CARRITO
-    export const createCart= async (req,res) => {
-        //---------------LOGICA----------------------
-        CartsService.createCart()
+
+    static createCart= async (req,res) => {
+        try{
+         await CartsService.createCart()
 
         //---------------RESPUESTA-------------------
             return res.status(201).send({
                 status: 'success',
                 message: 'nuevo carrito creado con exito'
             })
+        } catch(error){
+            return res.status(500).send({
+                status: 'error',
+                message: 'Error al crear el carrito: ' + error.message
+            });
+        }
         
     }
 
+    
+
 // CONTROLLER (GET) PARA TRAER EL CARRITO POR SU ID
-    export const getCartByID = async (req,res)=> {
+    static getCartById = async (req,res)=> {
+        try{
+             //---------------LOGICA----------------------
+             const cid = req.params.cid
+             const carrito = await CartsService. getCartById({_id:cid})
+ 
+         //---------------RESPUESTA-------------------
+             if(carrito==false){
+                 return res.status(404).send({
+                     status: 'error',
+                     message: `Carrito ${cid} no existe`
+                 })
+             } 
+             return res.status(200).send({
+                 status:'success',
+                 payload: carrito
+             })
+        }
+        catch (error) {
+            return res.status(500).send(error.message);
+        }
 
-        //---------------LOGICA----------------------
-            const cid = req.params.cid
-            const carrito = await CartsService.GetCart({_id:cid})
-
-        //---------------RESPUESTA-------------------
-            if(carrito==false){
-                return res.status(404).send({
-                    status: 'error',
-                    message: `Carrito ${cid} no existe`
-                })
-            }
-
-            return res.status(200).send({
-                status:'success',
-                payload: carrito
-            })
     }
 
 // CONTROLLER (POST) PARA AGREGAR UN PRODUCTO AL CARRITO
-    export const addToCartByID = async (req,res) => {
-
-        //---------------LOGICA----------------------
-            const cid = req.params.cid
-            const pid = req.params.pid
-            let producto = await ProductsService.getProducts({_id:pid})
-
-            if(producto[0].owner==req.user.user.email){
-                return res.status(400).send({
-                    status: 'error',
-                    message: `no puedes agregar un producto propio al carrito`
-                })
-            }
-
-            let action = await CartsService.AddToCart(cid,pid)
-        
-        //---------------RESPUESTA-------------------
-            if(action===false){
-                return res.status(404).send({
-                    status: 'error',
-                    message: `carrito ${cid} o producto ${pid} no existe`
-                })
-            }
-
-            return res.redirect(`http://localhost:8080/api/carts/${cid}`)
+static addToCartByID = async (req, res) => {
+    try {
+        if (!req.user || !req.user.email) {
+            return res.status(401).send({
+              status: 'error',
+              message: 'Usuario no autenticado'
+            });
+          }
+     
+      const cid = req.params.cid;
+      const pid = req.params.pid;
+  
+      let producto = await ProductsService.getProducts({ _id: pid });
+  
+      if (!producto || producto.length === 0 || !producto[0] || !producto[0].owner) {
+        return res.status(404).send({
+          status: 'error',
+          message: `Producto ${pid} no encontrado`
+        });
+      }
+      if (producto[0].owner == req.user.email) {
+        return res.status(400).send({
+          status: 'error',
+          message: `No puedes agregar un producto propio al carrito`
+        });
+      }
+  
+      let action = await CartsService.addProductInCart(cid, pid);
+  
+      //---------------RESPUESTA-------------------
+      if (action === false) {
+        return res.status(404).send({
+          status: 'error',
+          message: `Carrito ${cid} o producto ${pid} no existe`
+        });
+      }
+  
+      return res.redirect(`http://localhost:8080/api/cart/${cid}`);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({
+        status: 'error',
+        message: 'Se produjo un error interno al procesar la solicitud'
+      });
     }
+  };
+  
 
 // CONTROLLER (DELETE) PARA ELIMINAR UN PRODUCTO EN EL CARRITO
-    export const deleteProductInCart = async (req,res) => {
+    static deleteProductInCart = async (req,res) => {
 
         //---------------LOGICA----------------------
             const pid = req.params.pid
@@ -89,7 +123,7 @@ import { ProductsService } from "../services/products.service.js";
     }
 
 // CONTROLLER (DELETE) PARA ELIMINAR TODOS LOS PRODUCTOS DEL CARRITO
-    export const deleteAllProducts = async (req,res) => {
+    static deleteAllProducts = async (req,res) => {
 
         //---------------LOGICA----------------------
             const cid = req.params.cid
@@ -111,7 +145,7 @@ import { ProductsService } from "../services/products.service.js";
     }
 
 // CONTROLLER (PUT) PARA MODIFICAR TODO EL CARRITO
-    export const UpdateAllCart = async (req,res) => {
+    static UpdateAllCart = async (req,res) => {
 
         //---------------LOGICA----------------------
             const cid = req.params.cid
@@ -134,7 +168,7 @@ import { ProductsService } from "../services/products.service.js";
     }
 
 // CONTROLLER (PUT) PARA ACTUALIZAR LA CANTIDAD DE UN PRODUCTO
-    export const UpdateProductQty = async (req,res) => {
+    static UpdateProductQty = async (req,res) => {
 
         //---------------LOGICA----------------------
             const cid = req.params.cid
@@ -157,7 +191,7 @@ import { ProductsService } from "../services/products.service.js";
 
     }
 
-    export const PurchaseCart = async (req,res) => {
+    static PurchaseCart = async (req,res) => {
 
         //---------------LOGICA----------------------
             const cid = req.params.cid
@@ -173,3 +207,4 @@ import { ProductsService } from "../services/products.service.js";
             return res.status(201).redirect('http://localhost:8080/api/products')
 
     }
+}

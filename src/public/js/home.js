@@ -5,21 +5,6 @@ const chat = document.getElementById("messageLogs");
 
 let user;
 
-// Swal.fire({
-//     title:"Identificate",
-//     input:"text",
-//     text:"Ingresa un nombre de usuario para el chat",
-//     inputValidator:(value)=>{
-//         if(!value){
-//             return "El nombre de usuario es obligatorio"
-//         }
-//     },
-//     allowOutsideClick:false
-// }).then((result)=>{
-//     user = result.value;
-//     socketClient.emit("authenticated",`usuario ${user} ha iniciado sesión`)
-// });
-
 
 chatbox.addEventListener("keyup", (e)=>{
     // console.log(e.key);

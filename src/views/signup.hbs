@@ -1,22 +1,4 @@
-<script>
-  const getToken = localStorage.getItem("token"),
-
-  if (message) {
-    setShowAlert(true)
-    toast.success("{{message}}")
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 3000);
-  } else if (error) {
-    setShowAlert(true)
-    toast.error("{{error}}")
-  }
-  if (getToken) {
-    window.location.href = "/home";
-  }
-
-</script>
-<div id="contacto">
+{{!-- <div id="contacto">
   <div class="con1">
     <h2>Registro de usuario<h2>
         <p>Para registrarte ingresa los datos solicitados</p>
@@ -52,5 +34,71 @@
       </div>
     </form>
 
-  </div>
+  </div> --}}
 
+
+
+
+<script>
+  const getToken = localStorage.getItem("token");
+
+  if (getToken) {
+    // Si ya hay un token, redirige a la página de inicio
+    window.location.href = "/home";
+  }
+
+  const message = "{{message}}";
+  const error = "{{error}}";
+
+  if (message) {
+    setShowAlert(true);
+    toast.success(message);
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 3000);
+  } else if (error) {
+    setShowAlert(true);
+    toast.error(error);
+  }
+
+
+</script>
+
+<div id="contacto">
+  <div class="con1">
+    <h2>Registro de usuario<h2>
+        <p>Para registrarte ingresa los datos solicitados</p>
+        <p>Para contactarnos</p>
+        <p>Puedes hacerlo al:</p>
+        <p>0810-810-9994</p>
+        <p>contacto@tiendaelectro.com.ar</p>
+  </div>
+  <div class="formulario">
+    
+    <form method="post" action="/api/sessions/signup">
+      <h3>Registrate</h3>
+      <div class="input-group">
+        <label for="name">Nombre</label>
+        <input type="text" placeholder="Ingrese su nombre" name="first_name" />
+        <br /><br />
+        <label for="phone">Apellido</label>
+        <input type="text" placeholder="Ingrese su apellido" name="last_name" />
+        <br /><br />
+        <label for="email">Email</label>
+        <input type="email" placeholder="Ingrese su correo" name="email" />
+        <br /><br />
+        <label for="message">Password</label>
+        <input type="password" placeholder="Ingrese su contraseña" name="password" />
+        <br /><br />
+        <button class="btn" type="submit">Registrate</button>
+
+        <br><br>
+        <a class="btn" href="/forgot-password">Olvide mi contraseña</a>
+        <br><br>
+        <a class="btn" href="/api/sessions/loginGithub">
+          <button class="btn">Registrate con GITHUB </button>
+        </a>
+      </div>
+    </form>
+
+  </div>

@@ -1,13 +1,3 @@
-// import { ticketsDao } from "../dao/factory.js";
-
-// export class TicketsService {
-    
-//     static async createTicket(ticketInfo){
-//         return await ticketsDao.createTicket(ticketInfo);
-//     };
-// };
-
-
 import { ProductsService } from "./products.service.js"
 import {UsersService } from "./users.service.js"
 import { CartsService} from "./carts.service.js"
@@ -21,7 +11,7 @@ export class TicketsService {
 
 
     createTicket = async(cId)=>{
-        const carrito = await CartsService.GetCarts({_id:cId})
+        const carrito = await CartsService.getCart({_id:cId})
         let productsMap = []
         
         if(carrito[0].products=='') return false

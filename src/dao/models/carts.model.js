@@ -6,7 +6,7 @@ const cartsSchema = new mongoose.Schema({
   // Campo para el ID de Mongoose
   cartNumber:{
     type: mongoose.Types.ObjectId,
-    required:true
+    // required:true
 },
 
   business: {
@@ -34,9 +34,9 @@ const cartsSchema = new mongoose.Schema({
   },
   totalPrice: {
     type: Number,
-    required: true
+    // required: true
   },
-  default: [],
+   default: [],
   status: {
     type: String,
     default: 'pendiente'

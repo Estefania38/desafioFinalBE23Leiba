@@ -3,16 +3,13 @@ import { CartsController } from "../controllers/carts.controllers.js";
 import { __dirname } from "../utils.js";
 import { UserPass } from "../utils.js";
 import { checkAuthenticated } from "../middlewares/auth.js";
+
 const router = Router()
 
 router.post('/', checkAuthenticated, CartsController.createCart)
-
-
-
 router.get('/:cid', CartsController.getCartById)
 
-router.post('/:cid/product/:pid',checkAuthenticated, CartsController.addToCartByID),
-//UserPass('current'),
+router.post('/:cid/product/:pid',checkAuthenticated, CartsController.addToCartByID),UserPass('current'),
 
 router.delete('/:cid/products/:pid', CartsController.deleteProductInCart )
 
